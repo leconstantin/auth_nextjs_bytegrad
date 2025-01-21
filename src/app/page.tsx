@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -7,8 +6,11 @@ export default function Home() {
       <div className="-mt-[200px]">
         <h1 className="text-5xl font-bold my-3 max-w-[500px]">Expense App</h1>
         <p className="text-2xl font-medium max-w-[500px]">
-          Go to the <Link href="/dashboard">dashboard</Link> to keep track of
-          your expenses
+          Go to the{" "}
+          <Link href="/dashboard" className="underline">
+            dashboard
+          </Link>{" "}
+          to keep track of your expenses
         </p>
         <div className="mt-9 space-x-1"></div>
       </div>
