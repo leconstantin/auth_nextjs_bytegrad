@@ -1,9 +1,17 @@
 import { addExpense } from "@/actions/actions";
 import { prisma } from "@/lib/db";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export default async function Page() {
+  // get user
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
   // get data from database
-  const expenses = await prisma.expense.findMany();
+  const expenses = await prisma.expense.findMany({
+    where: { userId: user.id },
+    select: { description: true, amount: true },
+  });
   return (
     <div className="pt-24">
       <h1 className="text-center text-3xl font-bold">Expense</h1>

@@ -29,3 +29,33 @@ export async function addExpense(formData: FormData) {
 
   revalidatePath("/dashboard");
 }
+
+export async function editExpense(formData: FormData, id: number) {
+  // authenticatication check
+  const { isAuthenticated, getUser } = getKindeServerSession();
+  if (!(await isAuthenticated())) {
+    redirect("/api/auth/login");
+  }
+
+  // authorization check (check if user is actually creator of the expense)
+  const user = await getUser();
+  const expense = await prisma.expense.findUnique({
+    where: { id },
+  });
+  if (expense?.userId !== user.id) {
+    throw new Error("you are not authorized to edit this expense");
+  }
+  // get data
+  const amount = formData.get("amount") as string;
+  const description = formData.get("description") as string;
+
+  await prisma.expense.update({
+    where: { id },
+    data: {
+      amount: parseFloat(amount),
+      description,
+    },
+  });
+
+  revalidatePath("/dashboard");
+}
