@@ -1,14 +1,7 @@
 import { addExpense } from "@/actions/actions";
 import { prisma } from "@/lib/db";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { redirect } from "next/navigation";
 
 export default async function Page() {
-  // authenticate user
-  const { isAuthenticated } = getKindeServerSession();
-  if (!(await isAuthenticated())) {
-    redirect("/api/auth/login");
-  }
   // get data from database
   const expenses = await prisma.expense.findMany();
   return (

@@ -1,3 +1,4 @@
+import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
 
 export default function Home() {
@@ -12,7 +13,14 @@ export default function Home() {
           </Link>{" "}
           to keep track of your expenses
         </p>
-        <div className="mt-9 space-x-1"></div>
+        <div className="mt-9 space-x-1">
+          <LoginLink className="bg-black text-white py-2 px-4 rounded font-medium">
+            Sign In
+          </LoginLink>
+          <RegisterLink className="py-2 px-4 rounded font-medium">
+            Sign Up
+          </RegisterLink>
+        </div>
       </div>
     </main>
   );
