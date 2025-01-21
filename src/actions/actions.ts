@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 export async function addExpense(formData: FormData) {
   // authenticate user
-  const { isAuthenticated } = getKindeServerSession();
+  const { isAuthenticated, getUser } = getKindeServerSession();
   if (!(await isAuthenticated())) {
     redirect("/api/auth/login");
   }
@@ -16,11 +16,14 @@ export async function addExpense(formData: FormData) {
   const description = formData.get("description") as string;
 
   //   console.log(amount, description);
-
+  // get user
+  const user = await getUser();
+  // create expense
   await prisma.expense.create({
     data: {
       amount: parseFloat(amount),
       description,
+      userId: user.id,
     },
   });
 
