@@ -1,12 +1,13 @@
 "use server";
 
 import { prisma } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 export async function addExpense(formData: FormData) {
   const amount = formData.get("amount") as string;
   const description = formData.get("description") as string;
 
-  console.log(amount, description);
+  //   console.log(amount, description);
 
   await prisma.expense.create({
     data: {
@@ -14,4 +15,6 @@ export async function addExpense(formData: FormData) {
       description,
     },
   });
+
+  revalidatePath("/dashboard");
 }
